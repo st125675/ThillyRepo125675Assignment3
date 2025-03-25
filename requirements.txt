@@ -1,5 +1,5 @@
 pandas
 scikit-learn
 fastapi==0.115.1
-Django==5.1.5
+Django==4.2.20  # Latest available version
 pytest
