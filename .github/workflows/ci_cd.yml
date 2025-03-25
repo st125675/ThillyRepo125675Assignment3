@@ -1,0 +1,24 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ] # Or "master" if that's your branch
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9 # Or your Python version
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pytest # If you use pytest
+    - name: Run tests
+      run: |
+        python testScriptst125675.py # Or pytest
