@@ -2,9 +2,9 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "main" ] # Or "master" if that's your branch
+    branches: [ "master" ] # Or "master" if that's your branch
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   test:
