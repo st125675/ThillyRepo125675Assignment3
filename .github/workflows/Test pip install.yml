@@ -1,0 +1,21 @@
+name: Test pip install
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          echo "Contents of requirements.txt:"
+          cat requirements.txt  # Debugging: Print the file content
+          pip install -r requirements.txt
