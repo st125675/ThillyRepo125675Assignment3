@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/LENOVO/Desktop/Assignment3/mlruns/0/6e649e676e0b4b3ca51ca25a95f6cdbc/artifacts
+end_time: 1743914597795
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6e649e676e0b4b3ca51ca25a95f6cdbc
+run_name: traveling-goose-765
+run_uuid: 6e649e676e0b4b3ca51ca25a95f6cdbc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743914597694
+status: 3
+tags: []
+user_id: LENOVO

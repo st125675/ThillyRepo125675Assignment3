@@ -1,0 +1,107 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
+import mlflow
+import mlflow.sklearn
+import joblib
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.impute import SimpleImputer
+import os
+from sklearn.preprocessing import OneHotEncoder
+
+# Load dataset (Modify path as needed)
+
+df = pd.read_csv('cardekho.csv')
+
+# Convert selling price into four categories
+df['price_category'] = pd.cut(df['selling_price'], bins=[0, 300000, 600000, 900000, np.inf], labels=[0, 1, 2, 3])
+
+# Splitting dataset
+X = df.drop(columns=['selling_price', 'price_category'])  # Features
+y = df['price_category']  # Target
+
+# Identify categorical columns
+categorical_columns = X.select_dtypes(include=['object']).columns
+
+# Apply OneHotEncoding to categorical variables
+encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+X_encoded = pd.DataFrame(encoder.fit_transform(X[categorical_columns]))
+X_encoded.columns = encoder.get_feature_names_out(categorical_columns)
+
+# Drop original categorical columns and concatenate encoded ones
+X = X.drop(columns=categorical_columns)
+X = pd.concat([X, X_encoded], axis=1)
+
+# Handle missing values
+imputer = SimpleImputer(strategy='most_frequent')
+X = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Custom Logistic Regression with Ridge Regularization
+class CustomLogisticRegression:
+    def __init__(self, penalty='l2', C=1.0):
+        self.penalty = penalty
+        self.C = C
+        self.model = LogisticRegression(penalty=penalty if penalty != 'none' else None, C=C, max_iter=1000)
+    
+    def fit(self, X, y):
+        self.model.fit(X, y)
+    
+    def predict(self, X):
+        return self.model.predict(X)
+    
+    def predict_proba(self, X):
+        return self.model.predict_proba(X)
+
+# Initialize model
+clf = CustomLogisticRegression(penalty='l2', C=1.0)
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+
+# Calculate metrics
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, average='weighted')
+recall = recall_score(y_test, y_pred, average='weighted')
+f1 = f1_score(y_test, y_pred, average='weighted')
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+print("F1 Score:", f1)
+
+# Optimize MLflow Logging
+os.environ["MLFLOW_FLUSH_INTERVAL_SECS"] = "5"  # Reduce sync delay
+mlflow.set_tracking_uri("file:///mlruns")  # Log locally first
+
+with mlflow.start_run():
+    mlflow.log_param("penalty", 'l2')
+    mlflow.log_param("C", 1.0)
+    mlflow.log_metric("accuracy", accuracy)
+    mlflow.log_metric("precision", precision)
+    mlflow.log_metric("recall", recall)
+    mlflow.log_metric("f1", f1)
+    
+    # Save model locally and log as an artifact instead of full serialization
+    joblib.dump(clf.model, "car_price_model.pkl")
+    mlflow.log_artifact("car_price_model.pkl")  # Faster than log_model()
+    joblib.dump(imputer, 'imputer.pkl')
+    import joblib
+# ... your imputer and encoder training code ...
+    joblib.dump(imputer, 'imputer.pkl')
+    # Create and FIT the encoder
+    max_power_encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+    max_power_encoded = max_power_encoder.fit_transform(df[['max_power']]) # Ensure df is the correct dataframe.
+
+# Save the encoder
+    joblib.dump(max_power_encoder, 'max_power_encoder.pkl')
+
+# Get and print feature names (AFTER fitting)
+    print(max_power_encoder.get_feature_names_out(['max_power']))
+
+    print("Model saved and logged successfully.")
+
+    print("Model saved and logged successfully.")

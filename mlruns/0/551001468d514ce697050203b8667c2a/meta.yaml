@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/LENOVO/Desktop/Assignment3/mlruns/0/551001468d514ce697050203b8667c2a/artifacts
+end_time: 1743918902968
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 551001468d514ce697050203b8667c2a
+run_name: languid-frog-276
+run_uuid: 551001468d514ce697050203b8667c2a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1743918902918
+status: 3
+tags: []
+user_id: LENOVO
