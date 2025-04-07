@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Car Price Category Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            padding: 40px;
+        }
+        .container {
+            background: white;
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Predict Car Price Category</h2>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <form action="/predict" method="post">
+            <label for="fuel">Fuel Type:</label>
+            <select name="fuel" required>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="CNG">CNG</option>
+                <option value="Electric">Electric</option>
+            </select>
+
+            <label for="owner">Owner Type:</label>
+            <select name="owner" required>
+                <option value="First Owner">First Owner</option>
+                <option value="Second Owner">Second Owner</option>
+                <option value="Third Owner">Third Owner</option>
+                <option value="Fourth & Above Owner">Fourth & Above Owner</option>
+            </select>
+
+            <label for="brand">Brand:</label>
+            <select name="brand" required>
+                <option value="Maruti">Maruti</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="Honda">Honda</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Ford">Ford</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label for="km_driven">Kilometers Driven:</label>
+            <input type="number" name="km_driven" step="1" required>
+
+            <label for="engine">Engine Capacity (CC):</label>
+            <input type="number" name="engine" step="1" required>
+
+            <label for="seats">Seats:</label>
+            <input type="number" name="seats" step="1" required>
+
+            <label for="year">Manufacture Year:</label>
+            <input type="number" name="year" step="1" required>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>
