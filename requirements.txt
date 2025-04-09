@@ -5,3 +5,4 @@ Django==4.2.20  # Latest available version
 pytest
 numpy
 flask
+matplotlib
