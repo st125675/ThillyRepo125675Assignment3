@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from model import LogisticRegression  # Adjust import path if needed
+from LogisticRegresson import LogisticRegression  # Adjust import path if needed
 
 class TestLogisticRegression(unittest.TestCase):
     def test_model_input(self):
